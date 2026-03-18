@@ -24,7 +24,7 @@ export function HeroSection() {
   };
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-32 pb-20">
+    <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden pt-32 pb-20">
       {/* Ribbon aurora background */}
       <div className="absolute inset-0 z-0 bg-[#020a14]">
         <RibbonBackground />
@@ -43,7 +43,7 @@ export function HeroSection() {
         className="pointer-events-none relative z-10 container mx-auto px-6 max-w-5xl text-center"
       >
         {/* Badge */}
-        <motion.div
+        {/* <motion.div
           variants={fadeUp}
           className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-cyan-500/30 bg-cyan-500/10 mb-10 backdrop-blur-md"
         >
@@ -51,7 +51,7 @@ export function HeroSection() {
           <span className="text-xs font-semibold text-cyan-300 uppercase tracking-[0.18em]">
             Enterprise Software Engineering
           </span>
-        </motion.div>
+        </motion.div> */}
 
         {/*
           ─── EDITORIAL HEADLINE ─────────────────────────────────────────
