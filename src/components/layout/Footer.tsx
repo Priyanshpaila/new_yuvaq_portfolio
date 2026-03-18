@@ -22,9 +22,9 @@ export default function Footer() {
   ];
 
   return (
-    <footer className="relative pt-32 pb-12 overflow-hidden border-t border-white/10 mt-20">
+    <footer className="relative pt-32 pb-12 overflow-hidden  mt-20">
       {/* Background Glow */}
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-64 bg-cyan-900/30 blur-[120px] rounded-full pointer-events-none z-0" />
+      {/* <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-64 bg-cyan-900/30 blur-[120px] rounded-full pointer-events-none z-0" /> */}
       
       <div className="container mx-auto px-6 max-w-7xl relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8 mb-20">

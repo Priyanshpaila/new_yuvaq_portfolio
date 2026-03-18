@@ -9,6 +9,10 @@
   --color-card: rgba(255, 255, 255, 0.03);
   --color-card-hover: rgba(255, 255, 255, 0.08);
   --color-border: rgba(255, 255, 255, 0.1);
+
+  /* Typography */
+  --font-family-sans: var(--font-inter), "Inter", "Helvetica Neue", Arial, sans-serif;
+  --font-family-serif: var(--font-playfair), "Playfair Display", Georgia, serif;
 }
 
 :root {

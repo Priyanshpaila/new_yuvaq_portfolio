@@ -1,121 +1,39 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { motion, Variants } from "framer-motion";
-import dynamic from "next/dynamic";
 import { Button } from "@/components/ui/Button";
-import { SplinePlaceholder } from "@/components/spline/SplinePlaceholder";
-
-const Spline = dynamic(() => import("@splinetool/react-spline"), {
-  ssr: false,
-  loading: () => <SplinePlaceholder variant="hero" className="h-full w-full" />,
-});
-
-type NavigatorWithDeviceMemory = Navigator & {
-  deviceMemory?: number;
-};
+import { RibbonBackground } from "@/components/ui/RibbonBackground";
+import { MorphingText } from "@/components/ui/MorphingText";
 
 export function HeroSection() {
-  const [showSpline, setShowSpline] = useState(false);
-  const [useFallback, setUseFallback] = useState(false);
-
-  useEffect(() => {
-    const prefersReducedMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
-    ).matches;
-
-    const nav = navigator as NavigatorWithDeviceMemory;
-    const deviceMemory = nav.deviceMemory;
-    const lowMemoryDevice =
-      typeof deviceMemory === "number" && deviceMemory <= 4;
-
-    // You can tune this rule:
-    // - reduced motion => always fallback
-    // - <=4 GB RAM heuristic => fallback
-    const shouldFallback = prefersReducedMotion || lowMemoryDevice;
-
-    setUseFallback(shouldFallback);
-
-    if (shouldFallback) return;
-
-    let timeoutId: ReturnType<typeof setTimeout> | null = null;
-    let idleId: number | null = null;
-
-    const mountSpline = () => setShowSpline(true);
-
-    if ("requestIdleCallback" in window) {
-      idleId = (window as Window & {
-        requestIdleCallback: (
-          cb: IdleRequestCallback,
-          options?: IdleRequestOptions
-        ) => number;
-      }).requestIdleCallback(() => mountSpline(), { timeout: 1200 });
-    } else {
-      timeoutId = setTimeout(mountSpline, 300);
-    }
-
-    return () => {
-      if (
-        
-        idleId !== null &&
-        "cancelIdleCallback" in window
-      ) {
-        (
-          window as Window & {
-            cancelIdleCallback: (id: number) => void;
-          }
-        ).cancelIdleCallback(idleId);
-      }
-      if (timeoutId !== null) {
-        window.clearTimeout(timeoutId);
-      }
-    };
-  }, []);
-
   const staggerContainer: Variants = {
     hidden: { opacity: 0 },
     show: {
       opacity: 1,
-      transition: {
-        staggerChildren: 0.15,
-        delayChildren: 0.1,
-      },
+      transition: { staggerChildren: 0.18, delayChildren: 0.15 },
     },
   };
 
   const fadeUp: Variants = {
-    hidden: { opacity: 0, y: 30 },
+    hidden: { opacity: 0, y: 40 },
     show: {
       opacity: 1,
       y: 0,
-      transition: {
-        type: "spring",
-        stiffness: 50,
-        damping: 15,
-      },
+      transition: { type: "spring", stiffness: 44, damping: 14 },
     },
   };
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-32 pb-20">
-      {/* Background layer */}
-      <div className="absolute inset-0 z-0">
-        {useFallback ? (
-          <div className="h-full w-full bg-[radial-gradient(circle_at_center,rgba(34,211,238,0.16),rgba(0,0,0,0.88)_60%)]" />
-        ) : showSpline ? (
-          <Spline
-            scene="https://prod.spline.design/6Z6Bi6BWP9dwO1TD/scene.splinecode"
-            className="h-full w-full"
-          />
-        ) : (
-          <SplinePlaceholder variant="hero" className="h-full w-full" />
-        )}
+      {/* Ribbon aurora background */}
+      <div className="absolute inset-0 z-0 bg-[#020a14]">
+        <RibbonBackground />
       </div>
 
-      {/* Readability overlays */}
-      <div className="pointer-events-none absolute inset-0 z-[1] bg-black/40" />
-      <div className="pointer-events-none absolute inset-0 z-[2] bg-[radial-gradient(circle_at_center,rgba(0,0,0,0.08),rgba(0,0,0,0.55))]" />
-      <div className="pointer-events-none absolute inset-0 z-[3] bg-[url('/grid.svg')] bg-center opacity-[0.04]" />
+      {/* Overlays for readability */}
+      <div className="pointer-events-none absolute inset-0 z-[1] bg-black/45" />
+      <div className="pointer-events-none absolute inset-0 z-[2] bg-[radial-gradient(circle_at_center,rgba(0,0,0,0.06),rgba(0,0,0,0.6))]" />
+      <div className="pointer-events-none absolute inset-0 z-[3] bg-[url('/grid.svg')] bg-center opacity-[0.035]" />
 
       {/* Content */}
       <motion.div
@@ -124,32 +42,76 @@ export function HeroSection() {
         animate="show"
         className="pointer-events-none relative z-10 container mx-auto px-6 max-w-5xl text-center"
       >
+        {/* Badge */}
         <motion.div
           variants={fadeUp}
-          className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-cyan-500/30 bg-cyan-500/10 mb-8 backdrop-blur-md"
+          className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-cyan-500/30 bg-cyan-500/10 mb-10 backdrop-blur-md"
         >
           <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
-          <span className="text-xs font-semibold text-cyan-300 uppercase tracking-wider">
+          <span className="text-xs font-semibold text-cyan-300 uppercase tracking-[0.18em]">
             Enterprise Software Engineering
           </span>
         </motion.div>
 
+        {/*
+          ─── EDITORIAL HEADLINE ─────────────────────────────────────────
+          Mixed typography: serif italic (Playfair Display) + extra-bold
+          sans-serif (Inter Black), inspired by the reference image.
+          ────────────────────────────────────────────────────────────────
+        */}
         <motion.h1
           variants={fadeUp}
-          className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-white mb-6 leading-[1.08]"
+          className="mb-4 leading-[1.04] tracking-tight"
         >
-          Building <span className="text-gradient">Scalable</span>{" "}
-          <span className="text-gradient-brand">Digital Futures</span>
+          {/* Row 1 — italic serif + heavy sans (reference style contrast) */}
+          <span className="block">
+            <span
+              className="font-serif italic text-white/80 text-5xl md:text-6xl lg:text-7xl font-light"
+              style={{ fontFamily: "var(--font-playfair), Georgia, serif" }}
+            >
+              We build
+            </span>
+            {"  "}
+            <span className="font-black text-white text-5xl md:text-6xl lg:text-7xl uppercase tracking-[-0.02em]">
+              PRODUCTS
+            </span>
+          </span>
+
+          {/* Row 2 — morphing particle canvas word */}
+          <span className="block my-1">
+            <span
+              className="font-serif italic text-white/60 text-5xl md:text-6xl lg:text-7xl font-light"
+              style={{ fontFamily: "var(--font-playfair), Georgia, serif" }}
+            >
+              that are
+            </span>
+          </span>
+
+          {/*
+            Morphing particle canvas — cycles through key descriptors.
+            Height is fixed so text above/below doesn't jump.
+          */}
+          <span className="block pointer-events-auto">
+            <MorphingText
+              words={["Scalable", "Secure", "Innovative", "Enterprise", "Reliable"]}
+              holdMs={2400}
+              gap={6}
+              color="rgba(34,211,238,"
+              className="h-[80px] md:h-[100px] lg:h-[120px]"
+            />
+          </span>
         </motion.h1>
 
+        {/* Subline */}
         <motion.p
           variants={fadeUp}
-          className="text-lg md:text-xl text-white/75 mb-10 max-w-3xl mx-auto leading-relaxed font-light"
+          className="text-base md:text-lg text-white/55 mb-10 max-w-2xl mx-auto leading-relaxed font-light tracking-wide"
         >
           YuvaQ delivers premium custom software, SaaS products, and secure
           enterprise architecture that outpaces the speed of modern business.
         </motion.p>
 
+        {/* CTAs */}
         <motion.div
           variants={fadeUp}
           className="pointer-events-auto flex flex-col sm:flex-row items-center justify-center gap-4"

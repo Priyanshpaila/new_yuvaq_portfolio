@@ -37,7 +37,7 @@ export function FAQSection() {
         <div className="text-center mb-16">
           <span className="text-cyan-400 font-mono text-sm tracking-widest uppercase mb-4 block">Clarity</span>
           <h2 className="text-3xl md:text-5xl font-bold text-white">
-            Commonly asked <span className="text-gray-500">questions.</span>
+            Commonly asked <span className="italic font-serif text-gray-500">questions.</span>
           </h2>
         </div>
 

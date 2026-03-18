@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { SplinePlaceholder } from "@/components/spline/SplinePlaceholder";
+import Orb from "@/components/ui/Orb";
 
 const technologies = [
   { name: "React", category: "Frontend" },
@@ -15,54 +15,69 @@ const technologies = [
   { name: "Kubernetes", category: "DevOps" },
   { name: "Docker", category: "DevOps" },
   { name: "OpenAI", category: "AI" },
-  { name: "TensorFlow", category: "AI" }
+  { name: "TensorFlow", category: "AI" },
 ];
 
 export function TechStackSection() {
   return (
-    <section className="py-24 relative border-b border-white/5 bg-black/40 overflow-hidden">
-      
+    <section className="relative overflow-hidden border-b border-white/5 bg-black/40 py-24">
       {/* Glows */}
-      <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-cyan-900/10 blur-[150px] rounded-full pointer-events-none" />
+      <div className="pointer-events-none absolute right-0 top-0 h-[600px] w-[600px] rounded-full bg-cyan-900/10 blur-[150px]" />
+      <div className="pointer-events-none absolute left-[-10%] bottom-[-20%] h-[420px] w-[420px] rounded-full bg-purple-900/10 blur-[140px]" />
 
-      <div className="container mx-auto px-6 max-w-7xl relative z-10">
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
-          
+      <div className="container relative z-10 mx-auto max-w-7xl px-6">
+        <div className="grid items-center gap-16 lg:grid-cols-2">
           <div>
-            <span className="text-cyan-400 font-mono text-sm tracking-widest uppercase mb-4 block">The Stack</span>
-            <h2 className="text-3xl md:text-5xl font-bold text-white mb-6 leading-tight">
-              Powerful tools for <span className="text-gray-500">serious software.</span>
+            <span className="mb-4 block font-mono text-sm tracking-widest text-cyan-400 uppercase">
+              The Stack
+            </span>
+
+            <h2 className="mb-6 text-3xl font-bold leading-tight text-white md:text-5xl">
+              Powerful tools for{" "}
+              <span className="font-serif italic text-gray-500">
+                serious software.
+              </span>
             </h2>
-            <p className="text-white/50 text-lg font-light mb-10 leading-relaxed max-w-lg">
-              We do not chase trends. We use battle-tested, enterprise-grade technologies that guarantee security, scale, and long-term maintainability for your digital products.
+
+            <p className="mb-10 max-w-lg text-lg leading-relaxed font-light text-white/50">
+              We do not chase trends. We use battle-tested, enterprise-grade
+              technologies that guarantee security, scale, and long-term
+              maintainability for your digital products.
             </p>
 
-            {/* Tags Grid */}
             <div className="flex flex-wrap gap-3">
               {technologies.map((tech, i) => (
-                <motion.div 
+                <motion.div
                   key={tech.name}
                   initial={{ opacity: 0, scale: 0.9 }}
                   whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.05 }}
-                  className="px-4 py-2 rounded-full border border-white/10 bg-white/5 text-sm text-white/80 hover:bg-white/10 hover:border-cyan-500/30 transition-colors cursor-default"
+                  className="cursor-default rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-white/80 transition-colors hover:border-cyan-500/30 hover:bg-white/10"
                 >
-                  <span className="text-white/40 mr-2 text-xs">{tech.category}</span>
+                  <span className="mr-2 text-xs text-white/40">
+                    {tech.category}
+                  </span>
                   {tech.name}
                 </motion.div>
               ))}
             </div>
           </div>
 
-          <div className="relative h-[400px] lg:h-[500px] w-full mt-12 lg:mt-0 perspective-1000">
-             {/* 
-              FUTURE SPLINE NOTE: 
-              This placeholder will be replaced by a massive, slowly rotating 3D neural or cloud structure to visually represent the tech stack.
-            */}
-            <SplinePlaceholder variant="abstract" className="transform rotateX-12 scale-110" />
-          </div>
+          <div className="relative mt-12 h-[400px] w-full lg:mt-0 lg:h-[500px]">
+            <div className="pointer-events-none absolute inset-0 rounded-[32px] bg-[radial-gradient(circle_at_center,rgba(6,182,212,0.12),transparent_55%)]" />
 
+            <div className="relative h-full w-full overflow-hidden ">
+              <Orb
+                hoverIntensity={1.2}
+                rotateOnHover
+                hue={195}
+                forceHoverState={false}
+              />
+
+              <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_38%,rgba(0,0,0,0.35)_100%)]" />
+            </div>
+          </div>
         </div>
       </div>
     </section>

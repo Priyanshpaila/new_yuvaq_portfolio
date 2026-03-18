@@ -22,7 +22,7 @@ export default function Home() {
       <TechStackSection />
       <PortfolioSection />
       <FAQSection />
-      <CTASection />
+      {/* <CTASection /> */}
       <ContactSection />
     </>
   );
