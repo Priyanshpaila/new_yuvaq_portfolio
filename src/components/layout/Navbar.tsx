@@ -13,10 +13,10 @@ import Image from "next/image";
 import { Menu, X } from "lucide-react";
 
 const links = [
-  { name: "Services", href: "#services" },
-  { name: "Work", href: "#work" },
-  { name: "About", href: "#about" },
-  { name: "Process", href: "#process" },
+  { name: "Services", href: "/#services" },
+  { name: "Work", href: "/#work" },
+  { name: "About", href: "/#about" },
+  { name: "Process", href: "/#process" },
 ];
 
 const LOGO_SRC = "/images/logo.png"; // change this to your actual logo path
@@ -87,7 +87,7 @@ export default function Navbar() {
           >
             {/* Logo */}
             <Link
-              href="#home"
+              href="/#home"
               className="relative z-10 flex items-center gap-3"
               onClick={() => setMobileMenuOpen(false)}
             >
@@ -119,7 +119,7 @@ export default function Navbar() {
             {/* CTA & Mobile Toggle */}
             <div className="flex items-center gap-3 sm:gap-4">
               <div className="hidden md:block">
-                <Link href="#contact">
+                <Link href="/start-project">
                   <Button size="sm" variant="primary">
                     Start a Project
                   </Button>
@@ -166,7 +166,7 @@ export default function Navbar() {
               {/* Top bar */}
               <div className="flex items-center justify-between border-b border-white/10 px-5 py-5">
                 <Link
-                  href="#home"
+                  href="/#home"
                   className="flex items-center gap-3"
                   onClick={() => setMobileMenuOpen(false)}
                 >
@@ -176,7 +176,6 @@ export default function Navbar() {
                       alt="YuvaQ Logo"
                       fill
                       className="object-contain"
-                    
                     />
                   </div>
                 </Link>
@@ -208,7 +207,7 @@ export default function Navbar() {
 
                 <div className="pt-6">
                   <Link
-                    href="#contact"
+                    href="/start-project"
                     onClick={() => setMobileMenuOpen(false)}
                   >
                     <Button className="w-full" size="md" variant="primary">

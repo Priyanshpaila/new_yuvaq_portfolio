@@ -7,12 +7,12 @@ import ScrollStack, { ScrollStackItem } from "@/components/ui/ScrollStack";
 
 const projects = [
   {
-    title: "See Change",
-    category: "Consultancy",
-    desc: "Leading Knowledge Management Partner for MNCs and Growth Management Partner for MSMEs, delivering proof-of-concept-driven solutions through a 100+ expert network to revive struggling firms and accelerate enterprise growth.",
-    image: "/images/see.png",
-    color: "from-blue-600/20 to-cyan-900/20",
-    link: "https://app.seechangeonline.com/",
+    title: "Kalpavraksh Hills",
+    category: "Real Estate",
+    desc: "Premium residential township offering secure, well-planned living with modern amenities, elegant landscaping, wellness spaces, and a refined community lifestyle.",
+    image: "/images/kalpa.png",
+    color: "from-rose-600/20 to-pink-900/20",
+    link: "https://township.kalpavraksh.com/",
   },
   {
     title: "Sunil Group of Industries",
@@ -31,20 +31,20 @@ const projects = [
     link: "https://middlestown-pharmacy.co.uk/",
   },
   {
+    title: "See Change",
+    category: "Consultancy",
+    desc: "Leading Knowledge Management Partner for MNCs and Growth Management Partner for MSMEs, delivering proof-of-concept-driven solutions through a 100+ expert network to revive struggling firms and accelerate enterprise growth.",
+    image: "/images/see.png",
+    color: "from-blue-600/20 to-cyan-900/20",
+    link: "https://app.seechangeonline.com/",
+  },
+  {
     title: "Kalpvraksh",
     category: "Consultancy",
     desc: "Transformational psychology and counseling practice, empowering individuals, students, professionals, and families through 25+ years of expert guidance in career growth, mental wellness, academic success, and relationship harmony.",
     image: "/images/kal.png",
     color: "from-orange-600/20 to-amber-900/20",
     link: "https://kalpavraksh.com/",
-  },
-  {
-    title: "Kalpavraksh Hills",
-    category: "Real Estate",
-    desc: "Premium residential township offering secure, well-planned living with modern amenities, elegant landscaping, wellness spaces, and a refined community lifestyle.",
-    image: "/images/kalpa.png",
-    color: "from-rose-600/20 to-pink-900/20",
-    link: "https://township.kalpavraksh.com/",
   },
 ];
 
