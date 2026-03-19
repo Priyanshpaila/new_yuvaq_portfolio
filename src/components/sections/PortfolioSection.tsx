@@ -51,7 +51,7 @@ const projects = [
 export function PortfolioSection() {
   return (
     <section id="work" className="relative bg-black py-20 sm:py-24 lg:py-32">
-      <div className="pointer-events-none absolute inset-0 bg-[url('/grid.svg')] bg-center opacity-[0.04]" />
+      {/* <div className="pointer-events-none absolute inset-0 bg-[url('/grid.svg')] bg-center opacity-[0.04]" /> */}
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(6,182,212,0.08),transparent_45%)]" />
 
       <div className="container relative z-10 mx-auto max-w-7xl px-4 sm:px-6">
@@ -90,7 +90,7 @@ export function PortfolioSection() {
                     backdrop-blur-xl
                   `}
                 >
-                  <div className="pointer-events-none absolute inset-0 bg-[url('/grid.svg')] bg-center opacity-[0.08]" />
+                  {/* <div className="pointer-events-none absolute inset-0 bg-[url('/grid.svg')] bg-center opacity-[0.08]" /> */}
                   <div className="pointer-events-none absolute inset-0 bg-black/20" />
                   <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.05),transparent_60%)]" />
 
