@@ -1,30 +1,50 @@
 "use client";
 
+import Link from "next/link";
 import { MoveUpRight } from "lucide-react";
 import Image from "next/image";
 import ScrollStack, { ScrollStackItem } from "@/components/ui/ScrollStack";
 
 const projects = [
   {
-    title: "GlobalFin Enterprise Architecture",
-    category: "Fintech & Security",
-    desc: "A globally distributed ledger and trading dashboard built for a top-tier financial institution. Secure by design to handle $1B+ daily volume.",
+    title: "See Change",
+    category: "Astrology",
+    desc: "Leading Knowledge Management Partner for MNCs and Growth Management Partner for MSMEs, delivering proof-of-concept-driven solutions through a 100+ expert network to revive struggling firms and accelerate enterprise growth.",
     image: "/images/see.png",
     color: "from-blue-600/20 to-cyan-900/20",
+    link: "https://app.seechangeonline.com/",
   },
   {
-    title: "Aether AI Assistant",
-    category: "SaaS & AI Integration",
-    desc: "A custom LLM-powered data analyst platform for enterprise logistics teams. Reduced report generation time by 94%.",
+    title: "Sunil Group of Industries",
+    category: "Manufacturing",
+    desc: "Precision steel manufacturer transforming raw materials into high-quality, sustainable solutions through innovation, quality excellence, customer partnership, and responsible manufacturing.",
     image: "/images/sun.png",
     color: "from-purple-600/20 to-indigo-900/20",
+    link: "https://sunilgroupofindustries.com/",
   },
   {
-    title: "Nexus MedRecord",
-    category: "Healthcare Platform",
-    desc: "HIPAA-compliant patient management system featuring real-time telehealth video bridging and fragmented data aggregation.",
-    image: "/images/kal.png",
+    title: "Middlestown Pharmacy",
+    category: "Healthcare",
+    desc: "Digital pharmacy platform simplifying medicine discovery, secure ordering, prescription management, and doorstep healthcare access through a fast, user-friendly experience.",
+    image: "/images/uk.png",
     color: "from-emerald-600/20 to-teal-900/20",
+    link: "https://middlestown-pharmacy.co.uk/",
+  },
+  {
+    title: "Kalpvraksh",
+    category: "Consultancy",
+    desc: "Transformational psychology and counseling practice, empowering individuals, students, professionals, and families through 25+ years of expert guidance in career growth, mental wellness, academic success, and relationship harmony.",
+    image: "/images/kal.png",
+    color: "from-orange-600/20 to-amber-900/20",
+    link: "https://kalpavraksh.com/",
+  },
+  {
+    title: "Kalpavraksh Hills",
+    category: "Real Estate",
+    desc: "Premium residential township offering secure, well-planned living with modern amenities, elegant landscaping, wellness spaces, and a refined community lifestyle.",
+    image: "/images/kalpa.png",
+    color: "from-rose-600/20 to-pink-900/20",
+    link: "https://township.kalpavraksh.com/",
   },
 ];
 
@@ -60,15 +80,12 @@ export function PortfolioSection() {
           sectionMultiplier={1}
         >
           {projects.map((project, idx) => (
-            <ScrollStackItem
-              key={project.title}
-              itemClassName="px-4 sm:px-6"
-            >
+            <ScrollStackItem key={project.title} itemClassName="px-4 sm:px-6">
               <div className="mx-auto flex h-screen w-full max-w-6xl items-center justify-center">
                 <div
                   className={`
                     group relative w-full overflow-hidden rounded-[32px]
-                     bg-gradient-to-br ${project.color}
+                    bg-gradient-to-br ${project.color}
                     shadow-[0_20px_80px_rgba(0,0,0,0.35)]
                     backdrop-blur-xl
                   `}
@@ -79,10 +96,7 @@ export function PortfolioSection() {
 
                   <div className="relative z-10 grid min-h-[70vh] items-center gap-8 px-4 py-6 sm:px-6 sm:py-8 lg:grid-cols-[1.2fr_0.8fr] lg:gap-10 lg:px-10 lg:py-10">
                     {/* Screenshot */}
-                    <div
-                      data-stack-visual
-                      className="relative w-full"
-                    >
+                    <div data-stack-visual className="relative w-full">
                       <div className="pointer-events-none absolute -inset-6 rounded-[36px] bg-cyan-500/10 blur-3xl" />
 
                       <div className="relative overflow-hidden rounded-[28px] border border-white/10 bg-black/40 shadow-[0_20px_60px_rgba(0,0,0,0.4)]">
@@ -109,9 +123,9 @@ export function PortfolioSection() {
                     {/* Text */}
                     <div
                       data-stack-copy
-                      className="mx-auto max-w-xl rounded-[28px]    px-5 py-5 text-centerl lg:mx-0 lg:px-6 lg:py-6 lg:text-left"
+                      className="mx-auto max-w-xl rounded-[28px] px-5 py-5 text-left lg:mx-0 lg:px-6 lg:py-6"
                     >
-                      <div className="mb-4 inline-flex items-center gap-4 rounded-full  px-4 py-2 backdrop-blur-md lg:mb-6">
+                      <div className="mb-4 inline-flex items-center gap-4 px-4 py-2 backdrop-blur-md lg:mb-6">
                         <span className="font-mono text-xs text-white/40">
                           {String(idx + 1).padStart(2, "0")}
                         </span>
@@ -129,12 +143,19 @@ export function PortfolioSection() {
                         {project.desc}
                       </p>
 
-                      <button className="group/btn inline-flex items-center gap-3 text-white">
-                        <span className="font-medium">Explore Architecture</span>
+                      <a
+                        href={project.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="group/btn inline-flex items-center gap-3 text-white"
+                      >
+                        <span className="font-medium">
+                          Explore Architecture
+                        </span>
                         <div className="flex h-9 w-9 items-center justify-center rounded-full border border-white/15 transition-all group-hover/btn:bg-white group-hover/btn:text-black">
                           <MoveUpRight className="h-4 w-4 transition-transform group-hover/btn:-translate-y-0.5 group-hover/btn:translate-x-0.5" />
                         </div>
-                      </button>
+                      </a>
                     </div>
                   </div>
                 </div>
