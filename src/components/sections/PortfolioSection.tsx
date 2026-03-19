@@ -8,7 +8,7 @@ import ScrollStack, { ScrollStackItem } from "@/components/ui/ScrollStack";
 const projects = [
   {
     title: "See Change",
-    category: "Astrology",
+    category: "Consultancy",
     desc: "Leading Knowledge Management Partner for MNCs and Growth Management Partner for MSMEs, delivering proof-of-concept-driven solutions through a 100+ expert network to revive struggling firms and accelerate enterprise growth.",
     image: "/images/see.png",
     color: "from-blue-600/20 to-cyan-900/20",
