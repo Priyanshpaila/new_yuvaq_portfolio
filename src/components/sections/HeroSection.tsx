@@ -112,7 +112,7 @@ export function HeroSection() {
         </motion.p>
 
         {/* CTAs */}
-        <motion.div
+        {/* <motion.div
           variants={fadeUp}
           className="pointer-events-auto flex flex-col sm:flex-row items-center justify-center gap-4"
         >
@@ -122,7 +122,7 @@ export function HeroSection() {
           <Button size="lg" variant="outline">
             View Case Studies
           </Button>
-        </motion.div>
+        </motion.div> */}
       </motion.div>
     </section>
   );

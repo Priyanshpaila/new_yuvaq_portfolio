@@ -8,11 +8,11 @@ const LOGO_SRC = "/images/logo.png";
 
 export default function Footer() {
   const navLinks = [
-    { label: "Home", href: "#home" },
-    { label: "Services", href: "#services" },
-    { label: "Our Process", href: "#process" },
-    { label: "Portfolio", href: "#portfolio" },
-    { label: "Contact", href: "#contact" },
+    { label: "Home", href: "/#home" },
+    { label: "Services", href: "/#services" },
+    { label: "Our Process", href: "/#process" },
+    { label: "Portfolio", href: "/#portfolio" },
+    { label: "Contact", href: "/#contact" },
   ];
 
   const serviceLinks = [
