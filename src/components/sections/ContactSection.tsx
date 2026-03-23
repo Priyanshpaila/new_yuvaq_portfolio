@@ -98,7 +98,7 @@ export function ContactSection() {
         <div className="pointer-events-none absolute inset-0 z-2 bg-[radial-gradient(circle_at_center,rgba(0,0,0,0),rgba(0,0,0,0.8))]" />
         <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center opacity-[0.01]" />
       </div>
-      <div className="container mx-auto max-w-7xl px-6">
+      <div className="container relative z-10 mx-auto max-w-7xl px-6">
         <div className="grid items-start gap-16 lg:grid-cols-2">
           <motion.div
             initial={{ opacity: 0, x: -30 }}

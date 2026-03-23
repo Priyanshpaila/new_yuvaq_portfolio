@@ -48,11 +48,12 @@ export function SmoothScroll({ children }: { children: ReactNode }) {
       root
       options={{
         autoRaf: false,
-        lerp: 0.08,
+        lerp: 0.07,
+        duration: 1.2,
         smoothWheel: true,
         syncTouch: false,
-        wheelMultiplier: 0.95,
-        touchMultiplier: 1,
+        wheelMultiplier: 1.0,
+        touchMultiplier: 1.5,
         overscroll: true,
         autoResize: true,
       }}

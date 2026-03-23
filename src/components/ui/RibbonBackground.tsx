@@ -28,6 +28,7 @@ export function RibbonBackground({
 }: RibbonBackgroundProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const isVisible = useRef(true);
+  const animIdRef = useRef<number>(0);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -35,7 +36,6 @@ export function RibbonBackground({
     const ctx = canvas.getContext("2d", { alpha: true });
     if (!ctx) return;
 
-    let animId: number;
     let W = 0;
     let H = 0;
     let scrollY = 0;
@@ -91,10 +91,10 @@ export function RibbonBackground({
       const baseY = H * r.yFrac - (scrollShift % H);
 
       const pts: [number, number][] = [];
-      const steps = isLowEnd ? 4 : 6;
-      for (let i = 0; i <= steps; i++) {
-        const x = (W / steps) * i;
-        const phase2 = (i / steps) * Math.PI * 2;
+      const segments = isLowEnd ? 3 : 5;
+      for (let i = 0; i <= segments; i++) {
+        const x = (W / segments) * i;
+        const phase2 = (i / segments) * Math.PI * 2;
         const dy = Math.sin(t * r.speed + r.phase + phase2) * r.amplitude;
         pts.push([x, baseY + dy]);
       }
@@ -131,14 +131,25 @@ export function RibbonBackground({
     }
 
     function loop(t: number) {
-      if (!ctx || !canvas) return;
-      if (isVisible.current) {
-        ctx.clearRect(0, 0, W, H);
-        for (const r of ribbons) {
-          drawRibbon(t, r, scrollY);
-        }
+      if (!ctx || !canvas || !isVisible.current) return;
+      ctx.clearRect(0, 0, W, H);
+      for (const r of ribbons) {
+        drawRibbon(t, r, scrollY);
       }
-      animId = requestAnimationFrame(loop);
+      animIdRef.current = requestAnimationFrame(loop);
+    }
+
+    const startLoop = () => {
+        if (!animIdRef.current) {
+            animIdRef.current = requestAnimationFrame(loop);
+        }
+    }
+
+    const stopLoop = () => {
+        if (animIdRef.current) {
+            cancelAnimationFrame(animIdRef.current);
+            animIdRef.current = 0;
+        }
     }
 
     const onScroll = () => {
@@ -147,6 +158,11 @@ export function RibbonBackground({
 
     const observer = new IntersectionObserver(([entry]) => {
         isVisible.current = entry.isIntersecting;
+        if (isVisible.current) {
+            startLoop();
+        } else {
+            stopLoop();
+        }
     }, { threshold: 0 });
     observer.observe(canvas);
 
@@ -155,10 +171,10 @@ export function RibbonBackground({
     resize();
 
     window.addEventListener("scroll", onScroll, { passive: true });
-    animId = requestAnimationFrame(loop);
+    startLoop();
 
     return () => {
-      cancelAnimationFrame(animId);
+      stopLoop();
       ro.disconnect();
       observer.disconnect();
       window.removeEventListener("scroll", onScroll);
