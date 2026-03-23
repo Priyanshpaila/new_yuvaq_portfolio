@@ -1,5 +1,7 @@
 "use client";
 
+import { RibbonBackground } from "@/components/ui/RibbonBackground";
+
 export function TrustSection() {
   const clients = [
     { name: "TechCorp", type: "Enterprise SaaS" },
@@ -10,7 +12,13 @@ export function TrustSection() {
   ];
 
   return (
-    <section className="relative overflow-hidden py-20">
+    <section className="relative overflow-hidden bg-[#030303] py-20">
+      <div className="absolute inset-0 z-0">
+        <RibbonBackground variant="subtle" opacityMultiplier={0.4} />
+        {/* Darkening Overlays */}
+        <div className="pointer-events-none absolute inset-0 z-1 bg-black/40" />
+        <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center opacity-[0.01]" />
+      </div>
       <div className="container mx-auto max-w-7xl px-6 pb-8">
         <h2 className="text-center text-md font-semibold tracking-widest text-white/40 mb-10 uppercase">
           Trusted by modern companies scaling globally

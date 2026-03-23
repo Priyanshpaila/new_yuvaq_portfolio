@@ -83,16 +83,20 @@ export function ServicesSection() {
     <section
       id="services"
       ref={containerRef}
-      className="relative overflow-hidden bg-[#050505] py-24 md:py-32 lg:py-48"
+      className="relative overflow-hidden bg-[#030303] py-24 md:py-32 lg:py-48"
     >
-      <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden select-none bg-[#030712]">
-        <RibbonBackground variant="subtle" opacityMultiplier={0.5} />
+      <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden select-none bg-[#030303]">
+        <RibbonBackground variant="subtle" opacityMultiplier={0.4} />
         {bgIcons.map((item, i) => (
           <ParallaxIcon key={i} {...item} scrollProgress={scrollYProgress} />
         ))}
-        <div className="absolute top-0 right-0 h-[800px] w-[800px] rounded-full bg-cyan-500/[0.03] blur-[150px]" />
-        <div className="absolute bottom-0 left-0 h-[600px] w-[600px] rounded-full bg-purple-500/[0.03] blur-[130px]" />
-        <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center opacity-[0.02]" />
+        {/* Darkening Overlays */}
+        <div className="pointer-events-none absolute inset-0 z-1 bg-black/40" />
+        <div className="pointer-events-none absolute inset-0 z-2 bg-[radial-gradient(circle_at_center,rgba(0,0,0,0),rgba(0,0,0,0.8))]" />
+        
+        <div className="absolute top-0 right-0 h-[800px] w-[800px] rounded-full bg-cyan-500/[0.02] blur-[150px]" />
+        <div className="absolute bottom-0 left-0 h-[600px] w-[600px] rounded-full bg-purple-500/[0.02] blur-[130px]" />
+        <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center opacity-[0.01]" />
       </div>
 
       <div className="container relative z-10 mx-auto max-w-7xl px-6">

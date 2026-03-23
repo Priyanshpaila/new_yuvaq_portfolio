@@ -4,6 +4,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { CheckCircle, MoveRight, Send } from "lucide-react";
 import emailjs from "@emailjs/browser";
+import { RibbonBackground } from "@/components/ui/RibbonBackground";
 
 type FormState = {
   firstName: string;
@@ -89,7 +90,14 @@ export function ContactSection() {
   };
 
   return (
-    <section id="contact" className="relative bg-black py-24">
+    <section id="contact" className="relative bg-[#030303] py-24">
+      <div className="absolute inset-0 z-0">
+        <RibbonBackground variant="accent" opacityMultiplier={0.8} />
+        {/* Darkening Overlays */}
+        <div className="pointer-events-none absolute inset-0 z-1 bg-black/40" />
+        <div className="pointer-events-none absolute inset-0 z-2 bg-[radial-gradient(circle_at_center,rgba(0,0,0,0),rgba(0,0,0,0.8))]" />
+        <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center opacity-[0.01]" />
+      </div>
       <div className="container mx-auto max-w-7xl px-6">
         <div className="grid items-start gap-16 lg:grid-cols-2">
           <motion.div

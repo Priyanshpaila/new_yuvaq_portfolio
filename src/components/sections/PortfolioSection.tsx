@@ -4,6 +4,7 @@ import Link from "next/link";
 import { MoveUpRight } from "lucide-react";
 import Image from "next/image";
 import ScrollStack, { ScrollStackItem } from "@/components/ui/ScrollStack";
+import { RibbonBackground } from "@/components/ui/RibbonBackground";
 
 const projects = [
   {
@@ -50,9 +51,14 @@ const projects = [
 
 export function PortfolioSection() {
   return (
-    <section id="work" className="relative bg-black py-20 sm:py-24 lg:py-32">
-      {/* <div className="pointer-events-none absolute inset-0 bg-[url('/grid.svg')] bg-center opacity-[0.04]" /> */}
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(6,182,212,0.08),transparent_45%)]" />
+    <section id="work" className="relative bg-[#030303] py-20 sm:py-24 lg:py-32">
+      <div className="absolute inset-0 z-0">
+        <RibbonBackground variant="accent" opacityMultiplier={0.5} />
+        {/* Darkening Overlays */}
+        <div className="pointer-events-none absolute inset-0 z-1 bg-black/40" />
+        <div className="pointer-events-none absolute inset-0 z-2 bg-[radial-gradient(circle_at_center,rgba(0,0,0,0),rgba(0,0,0,0.8))]" />
+        <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center opacity-[0.02]" />
+      </div>
 
       <div className="container relative z-10 mx-auto max-w-7xl px-4 sm:px-6">
         <div className="mb-12 flex flex-col justify-between gap-6 sm:mb-16 md:flex-row md:items-end lg:mb-20">

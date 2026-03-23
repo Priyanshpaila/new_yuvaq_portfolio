@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import { motion, Variants } from "framer-motion";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
+import { RibbonBackground } from "@/components/ui/RibbonBackground";
 import { Application } from "@splinetool/runtime";
 
 export function AboutSection() {
@@ -45,8 +46,15 @@ export function AboutSection() {
   return (
     <section
       id="about"
-      className="relative overflow-hidden py-20 sm:py-24 lg:py-32"
+      className="relative overflow-hidden bg-[#030303] py-20 sm:py-24 lg:py-32"
     >
+      <div className="absolute inset-0 z-0">
+        <RibbonBackground variant="subtle" opacityMultiplier={0.3} />
+        {/* Darkening Overlays */}
+        <div className="pointer-events-none absolute inset-0 z-1 bg-black/40" />
+        <div className="pointer-events-none absolute inset-0 z-2 bg-[radial-gradient(circle_at_center,rgba(0,0,0,0),rgba(0,0,0,0.8))]" />
+        <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center opacity-[0.01]" />
+      </div>
       {/* Background visual */}
       <div className="pointer-events-none absolute left-0 top-1/2 h-[260px] w-[260px] -translate-y-1/2 rounded-full bg-cyan-900/10 blur-[90px] sm:h-[380px] sm:w-[380px] lg:h-[520px] lg:w-[520px] lg:blur-[120px]" />
 

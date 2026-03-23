@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Plus, Minus } from "lucide-react";
+import { RibbonBackground } from "@/components/ui/RibbonBackground";
 
 const faqs = [
   {
@@ -31,7 +32,14 @@ export function FAQSection() {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   return (
-    <section className="py-24 relative bg-black/80">
+    <section className="py-24 relative bg-[#030303]">
+      <div className="absolute inset-0 z-0">
+        <RibbonBackground variant="subtle" opacityMultiplier={0.3} />
+        {/* Darkening Overlays */}
+        <div className="pointer-events-none absolute inset-0 z-1 bg-black/40" />
+        <div className="pointer-events-none absolute inset-0 z-2 bg-[radial-gradient(circle_at_center,rgba(0,0,0,0),rgba(0,0,0,0.8))]" />
+        <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center opacity-[0.01]" />
+      </div>
       <div className="container mx-auto px-6 max-w-4xl relative z-10">
         
         <div className="text-center mb-16">

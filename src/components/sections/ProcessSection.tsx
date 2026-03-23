@@ -66,10 +66,13 @@ export function ProcessSection() {
   );
 
   return (
-    <section ref={containerRef} className="relative h-[400vh] bg-[#030712]">
+    <section ref={containerRef} className="relative h-[400vh] bg-[#030303]">
       <div className="absolute inset-0 z-0">
         <RibbonBackground variant="subtle" opacityMultiplier={0.3} />
-        <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center opacity-[0.02]" />
+        {/* Darkening Overlays */}
+        <div className="pointer-events-none absolute inset-0 z-1 bg-black/40" />
+        <div className="pointer-events-none absolute inset-0 z-2 bg-[radial-gradient(circle_at_center,rgba(0,0,0,0),rgba(0,0,0,0.8))]" />
+        <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center opacity-[0.01]" />
       </div>
       <div className="sticky top-0 h-screen w-full overflow-hidden flex flex-col lg:flex-row items-center justify-center">
         <motion.div 

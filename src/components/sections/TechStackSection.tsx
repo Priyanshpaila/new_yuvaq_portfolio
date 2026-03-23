@@ -80,11 +80,15 @@ export function TechStackSection() {
   return (
     <section 
       ref={containerRef}
-      className="relative overflow-hidden bg-[#030712] py-24 lg:py-32"
+      className="relative overflow-hidden bg-[#030303] py-24 lg:py-32"
     >
       <RibbonBackground variant="accent" opacityMultiplier={0.4} />
-      <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center opacity-[0.02]" />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[800px] w-[800px] rounded-full bg-cyan-500/[0.02] blur-[180px]" />
+      {/* Darkening Overlays */}
+      <div className="pointer-events-none absolute inset-0 z-1 bg-black/40" />
+      <div className="pointer-events-none absolute inset-0 z-2 bg-[radial-gradient(circle_at_center,rgba(0,0,0,0),rgba(0,0,0,0.8))]" />
+      
+      <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center opacity-[0.01]" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[800px] w-[800px] rounded-full bg-cyan-500/[0.01] blur-[180px]" />
       
       <div className="container relative z-10 mx-auto max-w-5xl px-6">
         <div className="mb-20 space-y-6 text-center">

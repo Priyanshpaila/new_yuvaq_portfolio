@@ -28,7 +28,7 @@ export function HeroSection() {
       id="home"
       className="relative min-h-screen flex items-center justify-center overflow-hidden pt-32 pb-20"
     >
-      <div className="absolute inset-0 z-0 bg-[#030712]">
+      <div className="absolute inset-0 z-0 bg-[#030303]">
         <RibbonBackground variant="hero" />
       </div>
 
