@@ -66,10 +66,7 @@ export function PortfolioSection() {
             </h2>
           </div>
 
-          <button className="flex w-fit items-center gap-2 border-b border-cyan-500 pb-1 text-white transition-colors hover:text-cyan-400">
-            View All Case Studies
-            <MoveUpRight className="h-4 w-4" />
-          </button>
+
         </div>
 
         <ScrollStack

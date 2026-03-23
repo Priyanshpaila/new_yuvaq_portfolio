@@ -1,43 +1,63 @@
 "use client";
 
 import { ReactLenis, useLenis } from "lenis/react";
-import { ReactNode, useEffect } from "react";
-import { gsap } from "gsap";
+import type { LenisRef } from "lenis/react";
+import { ReactNode, useEffect, useRef } from "react";
+import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
-/**
- * Syncs Lenis smooth-scroll with GSAP ScrollTrigger so that scrub
- * animations stay perfectly aligned with the smoothed scroll position.
- */
-function LenisGsapSync() {
-  // Each Lenis tick → update ScrollTrigger with the real scroll position
+function LenisGsapSync({
+  lenisRef,
+}: {
+  lenisRef: React.RefObject<LenisRef | null>;
+}) {
   useLenis(() => {
     ScrollTrigger.update();
   });
 
   useEffect(() => {
-    // Use Lenis' RAF to drive ScrollTrigger refreshes on resize
-    const onResize = () => ScrollTrigger.refresh();
+    const update = (time: number) => {
+      lenisRef.current?.lenis?.raf(time * 1000);
+    };
+
+    const onResize = () => {
+      ScrollTrigger.refresh();
+    };
+
+    gsap.ticker.add(update);
+    gsap.ticker.lagSmoothing(0);
     window.addEventListener("resize", onResize);
-    return () => window.removeEventListener("resize", onResize);
-  }, []);
+
+    return () => {
+      gsap.ticker.remove(update);
+      window.removeEventListener("resize", onResize);
+    };
+  }, [lenisRef]);
 
   return null;
 }
 
 export function SmoothScroll({ children }: { children: ReactNode }) {
+  const lenisRef = useRef<LenisRef>(null);
+
   return (
     <ReactLenis
+      ref={lenisRef}
       root
       options={{
-        lerp: 0.1,
-        duration: 1.5,
+        autoRaf: false,
+        lerp: 0.08,
         smoothWheel: true,
+        syncTouch: false,
+        wheelMultiplier: 0.95,
+        touchMultiplier: 1,
+        overscroll: true,
+        autoResize: true,
       }}
     >
-      <LenisGsapSync />
+      <LenisGsapSync lenisRef={lenisRef} />
       {children}
     </ReactLenis>
   );

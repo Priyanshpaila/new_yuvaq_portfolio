@@ -7,7 +7,6 @@ import { ProcessSection } from "@/components/sections/ProcessSection";
 import { TechStackSection } from "@/components/sections/TechStackSection";
 import { PortfolioSection } from "@/components/sections/PortfolioSection";
 import { FAQSection } from "@/components/sections/FAQSection";
-import { CTASection } from "@/components/sections/CTASection";
 import { ContactSection } from "@/components/sections/ContactSection";
 
 export default function Home() {

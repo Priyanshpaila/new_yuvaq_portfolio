@@ -82,3 +82,101 @@ body {
     animation: marquee 20s linear infinite;
   }
 }
+
+@layer components {
+  /* PillNav Styles */
+  .pill-nav-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .pill-list {
+    list-style: none;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center;
+    gap: 0px;
+    margin: 0;
+    padding: 0;
+  }
+
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 38px;
+    padding: 0 1.25rem;
+    color: var(--pill-text, rgba(255, 255, 255, 0.7));
+    text-decoration: none;
+    border-radius: 9999px;
+    box-sizing: border-box;
+    font-weight: 500;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    white-space: nowrap;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: color 0.3s ease;
+  }
+
+  .pill .hover-circle {
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    border-radius: 50%;
+    background: var(--pill-bg-circle, #22d3ee);
+    z-index: 1;
+    display: block;
+    pointer-events: none;
+    will-change: transform;
+  }
+
+  .pill .label-stack {
+    position: relative;
+    display: inline-block;
+    line-height: 1;
+    z-index: 2;
+  }
+
+  .pill .pill-label {
+    position: relative;
+    z-index: 2;
+    display: inline-block;
+    line-height: 1;
+    will-change: transform;
+    opacity: 1 !important; /* Ensure visibility */
+  }
+
+  .pill .pill-label-hover {
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: var(--pill-hover-text, #000);
+    z-index: 3;
+    display: inline-block;
+    will-change: transform, opacity;
+  }
+
+  .pill.is-active {
+    color: #fff;
+  }
+
+  .pill.is-active::after {
+    content: '';
+    position: absolute;
+    bottom: 4px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4px;
+    height: 4px;
+    background: #22d3ee;
+    border-radius: 50%;
+    z-index: 4;
+  }
+}
