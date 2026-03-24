@@ -79,6 +79,7 @@ export function TechStackSection() {
 
   return (
     <section 
+      id="tech-stack"
       ref={containerRef}
       className="relative overflow-hidden bg-[#030303] py-24 lg:py-32"
     >

@@ -1,10 +1,14 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { MoveUpRight } from "lucide-react";
 import Image from "next/image";
-import ScrollStack, { ScrollStackItem } from "@/components/ui/ScrollStack";
+import { MoveUpRight, ExternalLink } from "lucide-react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { RibbonBackground } from "@/components/ui/RibbonBackground";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const projects = [
   {
@@ -50,123 +54,235 @@ const projects = [
 ];
 
 export function PortfolioSection() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const railRef = useRef<HTMLDivElement>(null);
+  const loopRef = useRef<any>(null);
+
+  useEffect(() => {
+    if (!railRef.current) return;
+
+    const items = gsap.utils.toArray(".marquee-item");
+    
+    const loop = horizontalLoop(items, {
+      repeat: -1,
+      speed: 1,
+      paddingRight: 32, // gap between items
+    }) as any;
+    loopRef.current = loop;
+
+    ScrollTrigger.create({
+      trigger: containerRef.current,
+      start: "top bottom",
+      end: "bottom top",
+      onUpdate: (self) => {
+        const direction = (self as any).direction || 1;
+        gsap.to(loop, {
+          timeScale: direction * 4,
+          duration: 0.15,
+          overwrite: true,
+          onComplete: () => {
+            gsap.to(loop, {
+              timeScale: direction,
+              duration: 1.2,
+              ease: "power2.out",
+              overwrite: true
+            });
+          }
+        });
+      }
+    });
+
+    const handleResize = () => {
+      if (loopRef.current) loopRef.current.kill();
+      const newLoop = horizontalLoop(gsap.utils.toArray(".marquee-item"), {
+        repeat: -1,
+        speed: 1,
+        paddingRight: 32,
+      });
+      loopRef.current = newLoop;
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      if (loopRef.current) loopRef.current.kill();
+      ScrollTrigger.getAll().forEach(t => t.kill());
+    };
+  }, []);
+
+  const handleMouseEnter = () => {
+    if (loopRef.current) {
+      gsap.to(loopRef.current, { timeScale: 0, duration: 0.5, ease: "power2.out" });
+    }
+  };
+
+  const handleMouseLeave = () => {
+    if (loopRef.current) {
+      gsap.to(loopRef.current, { timeScale: 1, duration: 0.5, ease: "power2.inOut" });
+    }
+  };
+
   return (
-    <section id="work" className="relative bg-[#030303] py-20 sm:py-24 lg:py-32">
+    <section id="work" ref={containerRef} className="relative bg-[#030303] py-24 sm:py-32 overflow-hidden">
       <div className="absolute inset-0 z-0">
-        <RibbonBackground variant="accent" opacityMultiplier={0.5} />
-        {/* Darkening Overlays */}
+        <RibbonBackground variant="accent" opacityMultiplier={0.3} />
         <div className="pointer-events-none absolute inset-0 z-1 bg-black/40" />
         <div className="pointer-events-none absolute inset-0 z-2 bg-[radial-gradient(circle_at_center,rgba(0,0,0,0),rgba(0,0,0,0.8))]" />
         <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center opacity-[0.02]" />
       </div>
 
-      <div className="container relative z-10 mx-auto max-w-7xl px-4 sm:px-6">
-        <div className="mb-12 flex flex-col justify-between gap-6 sm:mb-16 md:flex-row md:items-end lg:mb-20">
-          <div>
-            <span className="mb-4 block font-mono text-xs tracking-[0.22em] text-cyan-400 uppercase sm:text-sm">
+      <div className="container relative z-10 mx-auto max-w-7xl px-6 mb-16">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+          <div className="max-w-2xl">
+            <span className="mb-4 block font-mono text-xs tracking-[0.22em] text-cyan-400 uppercase">
               Selected Work
             </span>
-
-            <h2 className="max-w-2xl text-3xl font-bold text-white sm:text-4xl md:text-5xl">
-              Proof of <span className="text-gradient">capability.</span>
+            <h2 className="text-4xl md:text-6xl font-bold text-white tracking-tight">
+              Proof of <span className="font-serif italic text-white/40">capability.</span>
             </h2>
           </div>
-
-
+          <div className="hidden md:block">
+            <p className="text-white/40 font-light text-right max-w-xs">
+              Explore our latest builds across real estate, manufacturing, and healthcare.
+            </p>
+          </div>
         </div>
+      </div>
 
-        <ScrollStack
-          itemScale={0.06}
-          itemStackDistance={28}
-          baseScale={0.9}
-          blurAmount={1.2}
-          sectionMultiplier={1}
-        >
-          {projects.map((project, idx) => (
-            <ScrollStackItem key={project.title} itemClassName="px-4 sm:px-6">
-              <div className="mx-auto flex h-screen w-full max-w-6xl items-center justify-center">
-                <div
-                  className={`
-                    group relative w-full overflow-hidden rounded-[32px]
-                    bg-gradient-to-br ${project.color}
-                    shadow-[0_20px_80px_rgba(0,0,0,0.35)]
-                    backdrop-blur-xl
-                  `}
-                >
-                  {/* <div className="pointer-events-none absolute inset-0 bg-[url('/grid.svg')] bg-center opacity-[0.08]" /> */}
-                  <div className="pointer-events-none absolute inset-0 bg-black/20" />
-                  <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.05),transparent_60%)]" />
-
-                  <div className="relative z-10 grid min-h-[70vh] items-center gap-8 px-4 py-6 sm:px-6 sm:py-8 lg:grid-cols-[1.2fr_0.8fr] lg:gap-10 lg:px-10 lg:py-10">
-                    {/* Screenshot */}
-                    <div data-stack-visual className="relative w-full">
-                      <div className="pointer-events-none absolute -inset-6 rounded-[36px] bg-cyan-500/10 blur-3xl" />
-
-                      <div className="relative overflow-hidden rounded-[28px] border border-white/10 bg-black/40 shadow-[0_20px_60px_rgba(0,0,0,0.4)]">
-                        <div className="flex h-10 items-center gap-2 border-b border-white/10 bg-black/60 px-4">
-                          <div className="h-2.5 w-2.5 rounded-full bg-red-400/70" />
-                          <div className="h-2.5 w-2.5 rounded-full bg-yellow-400/70" />
-                          <div className="h-2.5 w-2.5 rounded-full bg-green-400/70" />
-                        </div>
-
-                        <div className="relative aspect-[16/10] w-full overflow-hidden">
-                          <Image
-                            src={project.image}
-                            alt={project.title}
-                            fill
-                            className="object-cover object-top transition-transform duration-700 group-hover:scale-[1.02]"
-                            sizes="(max-width: 640px) 100vw, (max-width: 1200px) 65vw, 900px"
-                            priority={idx === 0}
-                          />
-                          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-transparent" />
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Text */}
-                    <div
-                      data-stack-copy
-                      className="mx-auto max-w-xl rounded-[28px] px-5 py-5 text-left lg:mx-0 lg:px-6 lg:py-6"
-                    >
-                      <div className="mb-4 inline-flex items-center gap-4 px-4 py-2 backdrop-blur-md lg:mb-6">
-                        <span className="font-mono text-xs text-white/40">
-                          {String(idx + 1).padStart(2, "0")}
-                        </span>
-                        <div className="h-px w-8 bg-white/15" />
-                        <span className="text-sm text-cyan-400">
-                          {project.category}
-                        </span>
-                      </div>
-
-                      <h3 className="mb-4 text-2xl font-bold text-white sm:text-3xl md:text-4xl">
-                        {project.title}
-                      </h3>
-
-                      <p className="mx-auto mb-8 max-w-2xl text-sm leading-relaxed font-light text-white/80 sm:text-base md:text-lg lg:mx-0">
-                        {project.desc}
-                      </p>
-
-                      <a
-                        href={project.link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="group/btn inline-flex items-center gap-3 text-white"
-                      >
-                        <span className="font-medium">
-                          Explore Architecture
-                        </span>
-                        <div className="flex h-9 w-9 items-center justify-center rounded-full border border-white/15 transition-all group-hover/btn:bg-white group-hover/btn:text-black">
-                          <MoveUpRight className="h-4 w-4 transition-transform group-hover/btn:-translate-y-0.5 group-hover/btn:translate-x-0.5" />
-                        </div>
-                      </a>
+      {/* Marquee Wrapper */}
+      <div 
+        className="relative flex items-center h-[500px] md:h-[600px] cursor-pointer"
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+      >
+        <div ref={railRef} className="flex gap-8 px-4">
+          {[...projects, ...projects].map((project, idx) => (
+            <div 
+              key={`${project.title}-${idx}`} 
+              className="marquee-item flex-shrink-0 w-[350px] md:w-[600px]"
+            >
+              <a 
+                href={project.link} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="group relative block w-full aspect-[16/10] rounded-[32px] overflow-hidden border border-white/10 bg-zinc-900"
+              >
+                <Image
+                  src={project.image}
+                  alt={project.title}
+                  fill
+                  sizes="(max-width: 768px) 350px, 600px"
+                  loading={idx < 4 ? "eager" : "lazy"}
+                  className="object-cover object-top transition-transform duration-700 group-hover:scale-105"
+                />
+                
+                {/* Overlay Details */}
+                <div className="absolute inset-0 bg-black/80 opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col justify-end p-8 md:p-12 backdrop-blur-sm">
+                  <div className="transform translate-y-8 group-hover:translate-y-0 transition-transform duration-500">
+                    <span className="text-cyan-400 font-mono text-xs uppercase tracking-widest mb-3 block">
+                      {project.category}
+                    </span>
+                    <h3 className="text-2xl md:text-4xl font-bold text-white mb-4">
+                      {project.title}
+                    </h3>
+                    <p className="text-white/60 text-sm md:text-base font-light mb-8 line-clamp-3">
+                      {project.desc}
+                    </p>
+                    <div className="flex items-center gap-2 text-white font-medium">
+                      <span>Live Preview</span>
+                      <ExternalLink className="h-4 w-4" />
                     </div>
                   </div>
                 </div>
-              </div>
-            </ScrollStackItem>
+
+                {/* Corner Label */}
+                <div className="absolute top-6 right-6 h-12 w-12 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 scale-0 group-hover:scale-100">
+                  <MoveUpRight className="h-5 w-5 text-white" />
+                </div>
+              </a>
+            </div>
           ))}
-        </ScrollStack>
+        </div>
       </div>
+
+      <style jsx>{`
+        .marquee-item {
+          will-change: transform;
+        }
+      `}</style>
     </section>
   );
+}
+
+// Helper function from GSAP
+function horizontalLoop(items: any[], config: any) {
+  items = gsap.utils.toArray(items);
+  config = config || {};
+  let tl = gsap.timeline({
+      repeat: config.repeat,
+      paused: config.paused,
+      defaults: { ease: "none" },
+      onReverseComplete: () => tl.totalTime(tl.rawTime() + tl.duration() * 100)
+    }),
+    length = items.length,
+    startX = items[0].offsetLeft,
+    times: any[] = [],
+    widths: any[] = [],
+    xPercents: any[] = [],
+    curIndex = 0,
+    pixelsPerSecond = (config.speed || 1) * 100,
+    snap = config.snap === false ? (v: any) => v : gsap.utils.snap(config.snap || 1),
+    totalWidth: number, curX, distanceToStart, distanceToLoop, item, i;
+  
+  gsap.set(items, {
+    xPercent: (i, el) => {
+      let w = widths[i] = parseFloat(gsap.getProperty(el, "width") as string);
+      xPercents[i] = snap(parseFloat(gsap.getProperty(el, "x") as string) / w * 100 + (gsap.getProperty(el, "xPercent") as number));
+      return xPercents[i];
+    }
+  });
+  
+  gsap.set(items, { x: 0 });
+  
+  totalWidth = items[length - 1].offsetLeft + xPercents[length - 1] / 100 * widths[length - 1] - startX + items[length - 1].offsetWidth * (gsap.getProperty(items[length - 1], "scaleX") as number) + (parseFloat(config.paddingRight) || 0);
+  
+  for (i = 0; i < length; i++) {
+    item = items[i];
+    curX = xPercents[i] / 100 * widths[i];
+    distanceToStart = item.offsetLeft + curX - startX;
+    distanceToLoop = distanceToStart + widths[i] * (gsap.getProperty(item, "scaleX") as number);
+    tl.to(item, { xPercent: snap((curX - distanceToLoop) / widths[i] * 100), duration: distanceToLoop / pixelsPerSecond }, 0)
+      .fromTo(item, { xPercent: snap((curX - distanceToLoop + totalWidth) / widths[i] * 100) }, { xPercent: xPercents[i], duration: (curX - distanceToLoop + totalWidth - curX) / pixelsPerSecond, immediateRender: false }, distanceToLoop / pixelsPerSecond)
+      .add("label" + i, distanceToStart / pixelsPerSecond);
+    times[i] = distanceToStart / pixelsPerSecond;
+  }
+  
+  function toIndex(index: number, vars: any) {
+    vars = vars || {};
+    (Math.abs(index - curIndex) > length / 2) && (index += index > curIndex ? -length : length);
+    let newIndex = gsap.utils.wrap(0, length, index),
+      time = times[newIndex];
+    if (time > tl.time() !== index > curIndex) {
+      vars.modifiers = { time: gsap.utils.wrap(0, tl.duration()) };
+      time += tl.duration() * (index > curIndex ? 1 : -1);
+    }
+    curIndex = newIndex;
+    vars.overwrite = true;
+    return tl.tweenTo(time, vars);
+  }
+  
+  tl.next = (vars: any) => toIndex(curIndex + 1, vars);
+  tl.previous = (vars: any) => toIndex(curIndex - 1, vars);
+  tl.current = () => curIndex;
+  tl.toIndex = (index: number, vars: any) => toIndex(index, vars);
+  tl.times = times;
+  tl.progress(1, true).progress(0, true);
+  
+  if (config.reversed) {
+    tl.vars.onReverseComplete();
+    tl.reverse();
+  }
+  
+  return tl;
 }

@@ -17,16 +17,16 @@ export default function Footer() {
     { label: "Home", href: "/#home" },
     { label: "Services", href: "/#services" },
     { label: "Our Process", href: "/#process" },
-    { label: "Portfolio", href: "/#portfolio" },
+    { label: "Portfolio", href: "/#work" },
     { label: "Contact", href: "/#contact" },
   ];
 
   const serviceLinks = [
-    { label: "Custom Software", href: "#" },
-    { label: "SaaS Development", href: "#" },
-    { label: "AI Integration", href: "#" },
-    { label: "Cloud Solutions", href: "#" },
-    { label: "Enterprise Architecture", href: "#" },
+    { label: "Custom Software", href: "/#services" },
+    { label: "SaaS Development", href: "/#services" },
+    { label: "AI Integration", href: "/#services" },
+    { label: "Cloud Solutions", href: "/#services" },
+    { label: "Enterprise Architecture", href: "/#services" },
   ];
 
   return (

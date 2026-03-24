@@ -32,7 +32,7 @@ export function FAQSection() {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   return (
-    <section className="py-24 relative bg-[#030303]">
+    <section id="faq" className="py-24 relative bg-[#030303]">
       <div className="absolute inset-0 z-0">
         <RibbonBackground variant="subtle" opacityMultiplier={0.3} />
         {/* Darkening Overlays */}

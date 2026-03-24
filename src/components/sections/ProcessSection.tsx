@@ -66,7 +66,7 @@ export function ProcessSection() {
   );
 
   return (
-    <section ref={containerRef} className="relative h-[400vh] bg-[#030303]">
+    <section id="process" ref={containerRef} className="relative h-[400vh] bg-[#030303]">
       <div className="absolute inset-0 z-0">
         <RibbonBackground variant="subtle" opacityMultiplier={0.3} />
         {/* Darkening Overlays */}

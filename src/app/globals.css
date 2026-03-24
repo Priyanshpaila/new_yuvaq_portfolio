@@ -25,6 +25,10 @@ body {
   color: var(--color-foreground);
 }
 
+section[id] {
+  scroll-margin-top: 5rem;
+}
+
 /* Custom Utilities for Luminous Monolith Theme */
 @layer utilities {
   .glass {
