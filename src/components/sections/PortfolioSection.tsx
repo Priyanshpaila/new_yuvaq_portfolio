@@ -47,6 +47,14 @@ const projects = [
     color: "from-orange-600/20 to-amber-900/20",
     link: "https://kalpavraksh.com/",
   },
+    {
+    title: "BMPL",
+    category: "Manufacturing",
+    desc: "Bhawani Moulders Pvt. Ltd., established in 1987, is a trusted steel manufacturer known for innovation, quality, and advanced light structural steel solutions across India.",
+    image: "/images/bmpl.png",
+    color: "from-orange-600/20 to-amber-900/20",
+    link: "https://bmpl-pawan.vercel.app/",
+  },
 ];
 
 interface StickyCardProps {
