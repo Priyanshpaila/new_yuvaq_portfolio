@@ -39,6 +39,32 @@ function LenisGsapSync({
   return null;
 }
 
+function ScrollEffects() {
+  useLenis((lenis) => {
+    // Parallax effects
+    const speedElements = document.querySelectorAll('[data-speed]');
+    speedElements.forEach((el) => {
+      const speed = parseFloat(el.getAttribute('data-speed') || '1');
+      if (isNaN(speed) || speed === 1) return;
+      
+      const y = (lenis.scroll) * (1 - speed);
+      (el as HTMLElement).style.transform = `translate3d(0, ${y}px, 0)`;
+    });
+
+    // Lag/Smoothness effects (simple implementation)
+    const lagElements = document.querySelectorAll('[data-lag]');
+    lagElements.forEach((el) => {
+      const lag = parseFloat(el.getAttribute('data-lag') || '0');
+      if (isNaN(lag) || lag === 0) return;
+      
+      // Note: Full lag implementation would require more complex state/GSAP
+      // For now we just focus on the speed/parallax which is most visible
+    });
+  });
+
+  return null;
+}
+
 export function SmoothScroll({ children }: { children: ReactNode }) {
   const lenisRef = useRef<LenisRef>(null);
 
@@ -48,17 +74,18 @@ export function SmoothScroll({ children }: { children: ReactNode }) {
       root
       options={{
         autoRaf: false,
-        lerp: 0.07,
-        duration: 1.2,
+        lerp: 0.05, // Smoother interpolation
+        duration: 1.5, // Slightly slower, more premium feel
         smoothWheel: true,
-        syncTouch: false,
+        syncTouch: true, // Better mobile performance
         wheelMultiplier: 1.0,
         touchMultiplier: 1.5,
-        overscroll: true,
+        overscroll: false, // Prevent generic bouncy behavior
         autoResize: true,
       }}
     >
       <LenisGsapSync lenisRef={lenisRef} />
+      <ScrollEffects />
       {children}
     </ReactLenis>
   );
