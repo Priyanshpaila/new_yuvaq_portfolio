@@ -28,13 +28,13 @@ EXPOSE 81
 CMD ["nginx", "-g", "daemon off;"]
 
 
-# docker build  --no-cache -t 192.168.13.72:5000/yuvaq_portfolio_new_23032026 .      
-# docker run -d --name yuvaq_portfolio_new_23032026 -p 81:81 yuvaq_portfolio_new_23032026_image
+# docker build  --no-cache -t 192.168.13.72:5000/yuvaq_portfolio_new_24032026 .      
+# docker run -d --name yuvaq_portfolio_new_24032026 -p 81:81 yuvaq_portfolio_new_24032026_image
 
-# docker tag yuvaq_portfolio_new_23032026_image 192.168.13.72:5000/yuvaq_portfolio_new_23032026
-# docker push 192.168.13.72:5000/yuvaq_portfolio_new_23032026
-# docker pull 192.168.13.72:5000/yuvaq_portfolio_new_23032026
-# docker run -d --name yuvaq_portfolio_new_23032026 -p 81:81 192.168.13.72:5000/yuvaq_portfolio_new_23032026
+# docker tag yuvaq_portfolio_new_24032026_image 192.168.13.72:5000/yuvaq_portfolio_new_24032026
+# docker push 192.168.13.72:5000/yuvaq_portfolio_new_24032026
+# docker pull 192.168.13.72:5000/yuvaq_portfolio_new_24032026
+# docker run -d --name yuvaq_portfolio_new_24032026 -p 81:81 192.168.13.72:5000/yuvaq_portfolio_new_24032026
 
 
 # docker pull 192.168.13.72:5000/rrcomplaint_frontend
