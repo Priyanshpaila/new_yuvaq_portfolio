@@ -1,14 +1,10 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import Link from "next/link";
+import { useRef } from "react";
+import { motion, useScroll, useTransform, MotionValue } from "framer-motion";
 import Image from "next/image";
 import { MoveUpRight, ExternalLink } from "lucide-react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { RibbonBackground } from "@/components/ui/RibbonBackground";
-
-gsap.registerPlugin(ScrollTrigger);
 
 const projects = [
   {
@@ -53,274 +49,174 @@ const projects = [
   },
 ];
 
-export function PortfolioSection() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const railRef = useRef<HTMLDivElement>(null);
-  const loopRef = useRef<any>(null);
-
-  useEffect(() => {
-    if (!railRef.current) return;
-
-    const items = gsap.utils.toArray(".marquee-item");
-    
-    const loop = horizontalLoop(items, {
-      repeat: -1,
-      speed: 1,
-      paddingRight: 32, // gap between items
-    }) as any;
-    loopRef.current = loop;
-
-    ScrollTrigger.create({
-      trigger: containerRef.current,
-      start: "top bottom",
-      end: "bottom top",
-      onUpdate: (self) => {
-        const direction = (self as any).direction || 1;
-        gsap.to(loop, {
-          timeScale: direction * 4,
-          duration: 0.15,
-          overwrite: true,
-          onComplete: () => {
-            gsap.to(loop, {
-              timeScale: direction,
-              duration: 1.2,
-              ease: "power2.out",
-              overwrite: true
-            });
-          }
-        });
-      }
-    });
-
-    const handleResize = () => {
-      if (loopRef.current) loopRef.current.kill();
-      const newLoop = horizontalLoop(gsap.utils.toArray(".marquee-item"), {
-        repeat: -1,
-        speed: 1,
-        paddingRight: 32,
-      });
-      loopRef.current = newLoop;
-    };
-
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-      if (loopRef.current) loopRef.current.kill();
-      ScrollTrigger.getAll().forEach(t => t.kill());
-    };
-  }, []);
-
-  const handleMouseEnter = () => {
-    if (loopRef.current) {
-      gsap.to(loopRef.current, { timeScale: 0, duration: 0.5, ease: "power2.out" });
-    }
-  };
-
-  const handleMouseLeave = () => {
-    if (loopRef.current) {
-      gsap.to(loopRef.current, { timeScale: 1, duration: 0.5, ease: "power2.inOut" });
-    }
-  };
-
-  return (
-    <section id="work" ref={containerRef} className="relative bg-[#030303] py-24 sm:py-32 overflow-hidden">
-      <div className="absolute inset-0 z-0">
-        <RibbonBackground variant="accent" opacityMultiplier={0.3} />
-        <div className="pointer-events-none absolute inset-0 z-1 bg-black/40" />
-        <div className="pointer-events-none absolute inset-0 z-2 bg-[radial-gradient(circle_at_center,rgba(0,0,0,0),rgba(0,0,0,0.8))]" />
-        <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center opacity-[0.02]" />
-      </div>
-
-      <div className="container relative z-10 mx-auto max-w-7xl px-6 mb-16">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-          <div className="max-w-2xl">
-            <span className="mb-4 block font-mono text-xs tracking-[0.22em] text-cyan-400 uppercase">
-              Selected Work
-            </span>
-            <h2 className="text-4xl md:text-6xl font-bold text-white tracking-tight">
-              Proof of <span className="font-serif italic text-white/40">capability.</span>
-            </h2>
-          </div>
-          <div className="hidden md:block">
-            <p className="text-white/40 font-light text-right max-w-xs">
-              Explore our latest builds across real estate, manufacturing, and healthcare.
-            </p>
-          </div>
-        </div>
-      </div>
-
-      {/* Marquee Wrapper */}
-      <div 
-        className="relative flex items-center h-[500px] md:h-[600px] cursor-pointer"
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
-      >
-        <div ref={railRef} className="flex gap-8 px-4">
-          {[...projects, ...projects].map((project, idx) => (
-            <div 
-              key={`${project.title}-${idx}`} 
-              className="marquee-item flex-shrink-0 w-[350px] md:w-[600px]"
-            >
-              <a 
-                href={project.link} 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="group relative block w-full aspect-[16/10] rounded-[32px] overflow-hidden border border-white/10 bg-zinc-900"
-              >
-                <Image
-                  src={project.image}
-                  alt={project.title}
-                  fill
-                  sizes="(max-width: 768px) 350px, 600px"
-                  loading={idx < 4 ? "eager" : "lazy"}
-                  className="object-cover object-top transition-transform duration-700 group-hover:scale-105"
-                />
-                
-                {/* Overlay Details */}
-                <div className="absolute inset-0 bg-black/80 opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col justify-end p-8 md:p-12 backdrop-blur-sm">
-                  <div className="transform translate-y-8 group-hover:translate-y-0 transition-transform duration-500">
-                    <span className="text-cyan-400 font-mono text-xs uppercase tracking-widest mb-3 block">
-                      {project.category}
-                    </span>
-                    <h3 className="text-2xl md:text-4xl font-bold text-white mb-4">
-                      {project.title}
-                    </h3>
-                    <p className="text-white/60 text-sm md:text-base font-light mb-8 line-clamp-3">
-                      {project.desc}
-                    </p>
-                    <div className="flex items-center gap-2 text-white font-medium">
-                      <span>Live Preview</span>
-                      <ExternalLink className="h-4 w-4" />
-                    </div>
-                  </div>
-                </div>
-
-                {/* Corner Label */}
-                <div className="absolute top-6 right-6 h-12 w-12 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 scale-0 group-hover:scale-100">
-                  <MoveUpRight className="h-5 w-5 text-white" />
-                </div>
-              </a>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <style jsx>{`
-        .marquee-item {
-          will-change: transform;
-        }
-      `}</style>
-    </section>
-  );
+interface StickyCardProps {
+  i: number;
+  project: (typeof projects)[0];
+  progress: MotionValue<number>;
+  range: [number, number];
+  targetScale: number;
 }
 
-// Helper function from GSAP
-function horizontalLoop(items: any[], config: any) {
-  items = gsap.utils.toArray(items);
-  config = config || {};
+const StickyCard = ({
+  i,
+  project,
+  progress,
+  range,
+  targetScale,
+}: StickyCardProps) => {
+  const scale = useTransform(progress, range, [1, targetScale]);
 
-  let tl = gsap.timeline({
-      repeat: config.repeat,
-      paused: config.paused,
-      defaults: { ease: "none" },
-      onReverseComplete: () => {
-        tl.totalTime(tl.rawTime() + tl.duration() * 100);
-      }
-    }),
-    length = items.length,
-    startX = items[0].offsetLeft,
-    times: any[] = [],
-    widths: any[] = [],
-    xPercents: any[] = [],
-    curIndex = 0,
-    pixelsPerSecond = (config.speed || 1) * 100,
-    snap = config.snap === false ? (v: any) => v : gsap.utils.snap(config.snap || 1),
-    totalWidth: number, curX, distanceToStart, distanceToLoop, item, i;
+  return (
+    <div className="sticky top-0 flex h-screen items-center justify-center">
+      <motion.div
+        style={{
+          scale,
+          top: `calc(10vh + ${i * 28}px)`,
+        }}
+        className="relative flex h-[450px] md:h-[550px] w-full max-w-5xl origin-top flex-col overflow-hidden rounded-[32px] md:rounded-[48px] border border-white/10 bg-[#0A0A0A] shadow-[0_0_50px_rgba(0,0,0,0.5)] transition-shadow duration-500 hover:shadow-cyan-500/10"
+      >
+        <div className="group relative h-full w-full">
+          {/* Image with subtle zoom on hover */}
+          <div className="absolute inset-0 overflow-hidden">
+            <Image
+              src={project.image}
+              alt={project.title}
+              fill
+              sizes="(max-width: 1280px) 100vw, 1280px"
+              className="object-cover object-top transition-transform duration-1000 group-hover:scale-105"
+            />
+            {/* Dark gradient overlay for text readability */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-80" />
+          </div>
 
-  gsap.set(items, {
-    xPercent: (i, el) => {
-      const w = (widths[i] = parseFloat(gsap.getProperty(el, "width") as string));
-      xPercents[i] =
-        snap(
-          (parseFloat(gsap.getProperty(el, "x") as string) / w) * 100 +
-          (gsap.getProperty(el, "xPercent") as number)
-        );
-      return xPercents[i];
-    }
+          {/* Content */}
+          <div className="absolute inset-0 flex flex-col justify-end p-8 md:p-16">
+            <div className="max-w-3xl transform transition-transform duration-500">
+              <div className="flex items-center gap-3 mb-4">
+                <span className="h-px w-8 bg-cyan-400" />
+                <span className="font-mono text-[10px] md:text-xs tracking-[0.3em] text-cyan-400 uppercase">
+                  {project.category}
+                </span>
+              </div>
+
+              <h3 className="text-3xl md:text-6xl font-bold text-white tracking-tight mb-6 leading-[1.1]">
+                {project.title}
+              </h3>
+
+              <p className="text-white/50 text-base md:text-lg font-light line-clamp-2 max-w-2xl mb-8 leading-relaxed">
+                {project.desc}
+              </p>
+
+              <a
+                href={project.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group/btn relative inline-flex items-center gap-3 overflow-hidden rounded-full bg-white px-8 py-4 text-sm font-bold text-black transition-all hover:pr-12"
+              >
+                <span className="relative z-10">Explore Project</span>
+                <MoveUpRight className="relative z-10 h-4 w-4 transition-all group-hover/btn:translate-x-2 group-hover/btn:-translate-y-1" />
+                <div className="absolute inset-0 -translate-x-full bg-cyan-400 transition-transform duration-300 group-hover/btn:translate-x-0" />
+              </a>
+            </div>
+          </div>
+
+          {/* Floating badge */}
+          <div className="absolute top-10 right-10 h-14 w-14 rounded-full border border-white/10 bg-black/40 backdrop-blur-xl flex items-center justify-center opacity-0 transition-all duration-500 scale-50 group-hover:opacity-100 group-hover:scale-100 group-hover:rotate-12">
+            <ExternalLink className="h-5 w-5 text-white/70" />
+          </div>
+        </div>
+      </motion.div>
+    </div>
+  );
+};
+
+export function PortfolioSection() {
+  const container = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: container,
+    offset: ["start start", "end end"],
   });
 
-  gsap.set(items, { x: 0 });
+  return (
+    <section id="work" ref={container} className="relative bg-[#030303]">
+      {/* Dynamic Background */}
+      <div className="absolute inset-0 z-0 pointer-events-none">
+        <RibbonBackground variant="accent" opacityMultiplier={0.2} />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(6,182,212,0.05)_0%,transparent_70%)]" />
+        <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center opacity-[0.03]" />
+      </div>
 
-  totalWidth =
-    items[length - 1].offsetLeft +
-    (xPercents[length - 1] / 100) * widths[length - 1] -
-    startX +
-    items[length - 1].offsetWidth *
-      (gsap.getProperty(items[length - 1], "scaleX") as number) +
-    (parseFloat(config.paddingRight) || 0);
+      <div className="relative z-10">
+        {/* Section Header */}
+        <div className="container mx-auto max-w-7xl px-6 pt-32 pb-20">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-8">
+            <div className="max-w-2xl">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="flex items-center gap-4 mb-6"
+              >
+                <span className="h-px w-10 bg-cyan-500/50" />
+                <span className="font-mono text-xs tracking-[0.4em] text-cyan-400 uppercase">
+                  Portfolio
+                </span>
+              </motion.div>
 
-  for (i = 0; i < length; i++) {
-    item = items[i];
-    curX = (xPercents[i] / 100) * widths[i];
-    distanceToStart = item.offsetLeft + curX - startX;
-    distanceToLoop =
-      distanceToStart + widths[i] * (gsap.getProperty(item, "scaleX") as number);
+              <motion.h2
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.1 }}
+                className="text-5xl md:text-8xl font-bold text-white tracking-tighter leading-[0.9]"
+              >
+                Proof of <br />
+                <span className="font-serif italic text-white/30">
+                  capability.
+                </span>
+              </motion.h2>
+            </div>
 
-    tl.to(
-      item,
-      {
-        xPercent: snap(((curX - distanceToLoop) / widths[i]) * 100),
-        duration: distanceToLoop / pixelsPerSecond
-      },
-      0
-    )
-      .fromTo(
-        item,
-        { xPercent: snap(((curX - distanceToLoop + totalWidth) / widths[i]) * 100) },
-        {
-          xPercent: xPercents[i],
-          duration: (curX - distanceToLoop + totalWidth - curX) / pixelsPerSecond,
-          immediateRender: false
-        },
-        distanceToLoop / pixelsPerSecond
-      )
-      .add("label" + i, distanceToStart / pixelsPerSecond);
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2 }}
+              className="max-w-xs md:text-right"
+            >
+              <p className="text-white/40 font-light text-lg leading-relaxed">
+                Engineering high-performance digital ecosystems for industry
+                leaders.
+              </p>
+            </motion.div>
+          </div>
+        </div>
 
-    times[i] = distanceToStart / pixelsPerSecond;
-  }
+        {/* Sticky Cards Stack */}
+        <div className="px-4 pb-[30vh]">
+          {projects.map((project, i) => {
+            const targetScale = 1 - (projects.length - i) * 0.05;
+            return (
+              <StickyCard
+                key={project.title}
+                i={i}
+                project={project}
+                progress={scrollYProgress}
+                range={[i * 0.2, 1]}
+                targetScale={targetScale}
+              />
+            );
+          })}
+        </div>
+      </div>
 
-  function toIndex(index: number, vars: any) {
-    vars = vars || {};
-    if (Math.abs(index - curIndex) > length / 2) {
-      index += index > curIndex ? -length : length;
-    }
-
-    const newIndex = gsap.utils.wrap(0, length, index);
-    let time = times[newIndex];
-
-    if ((time > tl.time()) !== (index > curIndex)) {
-      vars.modifiers = { time: gsap.utils.wrap(0, tl.duration()) };
-      time += tl.duration() * (index > curIndex ? 1 : -1);
-    }
-
-    curIndex = newIndex;
-    vars.overwrite = true;
-    return tl.tweenTo(time, vars);
-  }
-
-  (tl as any).next = (vars: any) => toIndex(curIndex + 1, vars);
-  (tl as any).previous = (vars: any) => toIndex(curIndex - 1, vars);
-  (tl as any).current = () => curIndex;
-  (tl as any).toIndex = (index: number, vars: any) => toIndex(index, vars);
-  (tl as any).times = times;
-
-  tl.progress(1, true).progress(0, true);
-
-  if (config.reversed) {
-    tl.vars.onReverseComplete?.();
-    tl.reverse();
-  }
-
-  return tl;
+      {/* Decorative scroll indicator */}
+      <div className="absolute bottom-20 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4 opacity-20">
+        <span className="text-[10px] uppercase tracking-[0.5em] text-white rotate-90 mb-8 translate-y-4">
+          SCROLL
+        </span>
+        <div className="h-16 w-px bg-gradient-to-b from-white to-transparent" />
+      </div>
+    </section>
+  );
 }
