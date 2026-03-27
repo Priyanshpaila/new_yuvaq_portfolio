@@ -55,6 +55,30 @@ const projects = [
     color: "from-orange-600/20 to-amber-900/20",
     link: "https://bmpl-pawan.vercel.app/",
   },
+    {
+    title: "Store App",
+    category: "E-commerce",
+    desc: "Store management app offering seamless inventory control, sales tracking, and customer insights for efficient retail operations and enhanced business growth.",
+    image: "/images/store.png",
+    color: "from-blue-600/20 to-cyan-900/20",
+    link: "https://store.yuvaq.com/",
+  },
+  {
+    title: "LogiQ",
+    category: "Logistics",
+    desc: "LogiQ's intuitive interface and robust features ensure efficient procurement management, transparency, and informed decision-making for logistics operations.",
+    image: "/images/logiq.png",
+    color: "from-orange-600/20 to-amber-900/20",
+    link: "https://logiq.yuvaq.com/",
+  },
+    {
+    title: "PurchaseQ",
+    category: "Procurement ",
+    desc: "PurchaseQ is a streamlined purchase portal designed to manage procurement end-to-end from vendor onboarding and RFQ creation to approvals, comparative statements, and purchase order processing ensuring faster workflows, transparency, and control.",
+    image: "/images/pq.png",
+    color: "from-orange-600/20 to-amber-900/20",
+    link: "https://purchase.yuvaq.com/",
+  },
 ];
 
 interface StickyCardProps {
