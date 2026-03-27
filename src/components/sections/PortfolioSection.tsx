@@ -47,7 +47,7 @@ const projects = [
     color: "from-orange-600/20 to-amber-900/20",
     link: "https://kalpavraksh.com/",
   },
-    {
+  {
     title: "BMPL",
     category: "Manufacturing",
     desc: "Bhawani Moulders Pvt. Ltd., established in 1987, is a trusted steel manufacturer known for innovation, quality, and advanced light structural steel solutions across India.",
@@ -55,7 +55,7 @@ const projects = [
     color: "from-orange-600/20 to-amber-900/20",
     link: "https://bmpl-pawan.vercel.app/",
   },
-    {
+  {
     title: "Store App",
     category: "E-commerce",
     desc: "Store management app offering seamless inventory control, sales tracking, and customer insights for efficient retail operations and enhanced business growth.",
@@ -71,7 +71,7 @@ const projects = [
     color: "from-orange-600/20 to-amber-900/20",
     link: "https://logiq.yuvaq.com/",
   },
-    {
+  {
     title: "PurchaseQ",
     category: "Procurement ",
     desc: "PurchaseQ is a streamlined purchase portal designed to manage procurement end-to-end from vendor onboarding and RFQ creation to approvals, comparative statements, and purchase order processing ensuring faster workflows, transparency, and control.",
@@ -98,30 +98,30 @@ const StickyCard = ({
 }: StickyCardProps) => {
   const scale = useTransform(progress, range, [1, targetScale]);
 
+  // stop pushing cards lower after the 5th visible stack layer
+  const stackOffset = Math.min(i, 4) * 28;
+
   return (
     <div className="sticky top-0 flex h-screen items-center justify-center">
       <motion.div
         style={{
           scale,
-          top: `calc(10vh + ${i * 28}px)`,
+          top: `calc(10vh + ${stackOffset}px)`,
         }}
-        className="relative flex h-[450px] md:h-[550px] w-full max-w-5xl origin-top flex-col overflow-hidden rounded-[32px] md:rounded-[48px] border border-white/10 bg-[#0A0A0A] shadow-[0_0_50px_rgba(0,0,0,0.5)] transition-shadow duration-500 hover:shadow-cyan-500/10"
+        className="relative flex h-[500px] sm:h-[560px] md:h-[620px] lg:h-[680px] w-[94vw] max-w-[1180px] origin-top flex-col overflow-hidden rounded-[32px] md:rounded-[48px] border border-white/10 bg-[#0A0A0A] shadow-[0_0_50px_rgba(0,0,0,0.5)] transition-shadow duration-500 hover:shadow-cyan-500/10"
       >
         <div className="group relative h-full w-full">
-          {/* Image with subtle zoom on hover */}
           <div className="absolute inset-0 overflow-hidden">
             <Image
               src={project.image}
               alt={project.title}
               fill
-              sizes="(max-width: 1280px) 100vw, 1280px"
+              sizes="(max-width: 768px) 94vw, (max-width: 1280px) 94vw, 1180px"
               className="object-cover object-top transition-transform duration-1000 group-hover:scale-105"
             />
-            {/* Dark gradient overlay for text readability */}
             <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-80" />
           </div>
 
-          {/* Content */}
           <div className="absolute inset-0 flex flex-col justify-end p-8 md:p-16">
             <div className="max-w-3xl transform transition-transform duration-500">
               <div className="flex items-center gap-3 mb-4">
@@ -152,7 +152,6 @@ const StickyCard = ({
             </div>
           </div>
 
-          {/* Floating badge */}
           <div className="absolute top-10 right-10 h-14 w-14 rounded-full border border-white/10 bg-black/40 backdrop-blur-xl flex items-center justify-center opacity-0 transition-all duration-500 scale-50 group-hover:opacity-100 group-hover:scale-100 group-hover:rotate-12">
             <ExternalLink className="h-5 w-5 text-white/70" />
           </div>
@@ -225,16 +224,24 @@ export function PortfolioSection() {
         </div>
 
         {/* Sticky Cards Stack */}
-        <div className="px-4 pb-[30vh]">
+        <div className="px-2 md:px-4 pb-[30vh]">
           {projects.map((project, i) => {
-            const targetScale = 1 - (projects.length - i) * 0.05;
+            const total = projects.length;
+
+            // keep scroll ranges valid even when cards > 5
+            const start = i / total;
+
+            // cap shrink depth so later cards don't look smaller than the earlier stack
+            const shrinkDepth = Math.min(total - i - 1, 4);
+            const targetScale = 1 - shrinkDepth * 0.03;
+
             return (
               <StickyCard
                 key={project.title}
                 i={i}
                 project={project}
                 progress={scrollYProgress}
-                range={[i * 0.2, 1]}
+                range={[start, 1]}
                 targetScale={targetScale}
               />
             );
